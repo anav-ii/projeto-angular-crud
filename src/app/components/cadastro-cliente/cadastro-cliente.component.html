@@ -5,22 +5,24 @@
 <form id="form-clientes">
     
     <label for="nome">Nome: </label>
-    <input type="text" name="name" id="name" required minlength="1" required maxlength="60" placeholder="Digite o seu nome.">
+    <input type="text" name="name" id="name"  [(ngModel)]="cliente.nome"  required minlength="1" required maxlength="60" placeholder="Digite o seu nome.">
 
     <label for="email">Email: </label>
-    <input type="text" name="email" id="email" required maxlength="50" placeholder="Digite seu email.">
+    <input type="text" name="email" id="email" [(ngModel)]="cliente.email" required maxlength="50" placeholder="Digite seu email.">
 
     <label for="cpf">CPF:</label>
-    <input type="text" name="cpf" id="cpf" required maxlength="11" placeholder="Digite seu CPF.">
+    <input type="text" name="cpf" id="cpf"  [(ngModel)]="cliente.cpf" required maxlength="11" placeholder="Digite seu CPF.">
 
     <label for="datanascimento">Data de Nascimento:</label>
-    <input type="date" name="datanascimento" id="datanascimento" required maxlength="8" placeholder="Digite a Data de Nascimento.">
+    <input type="date" name="datanascimento" id="datanascimento"   [(ngModel)]="cliente.datadenascimento"> required maxlength="8" placeholder="Digite a Data de Nascimento.">
 
     <label for="uf">UF:</label>
-    <input type="text" name="uf" id="uf" required maxlength="40" placeholder="Digite a sua Unidade Federativa.">
+    <input type="text" name="uf" id="uf" [(ngModel)]="cliente.uf"> required maxlength="40" placeholder="Digite a sua Unidade Federativa.">
 
     <label for="municipio">Município:</label>
-    <input type="text" name="municipio" id="municipio" maxlength="40" placeholder="Digite o seu município."> 
+    <input type="text" name="municipio" id="municipio" [(ngModel)]="cliente.municipio"> maxlength="40" placeholder="Digite o seu município."> 
+
+<button type="button" (click)="salvar()">Salvar</button>
 
 </form>
 

@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import { Item } from './item';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro-cliente',
   standalone: true,
-  imports: [Item],
+  imports: [FormsModule, CommonModule],
   templateUrl: './cadastro-cliente.component.html',
   styleUrl: './cadastro-cliente.component.css'
 })
 export class CadastroClienteComponent {
-  nome: string = ''
-  email: string =''
-  cpf: string = ''
-  datadenascimento: string | number = ''
-  uf: string = ''
-  municipio: string = ''
-  listaClientes : Cliente [] = []
 
-  addCliente (){
+  cliente: Item = new Item();
 
-    let Clientes = new cliente ()
-    Item.nome = 
+  clientes: Item[] = [];
+
+  salvar() {
+    this.clientes.push({ ...this.cliente });
+
+    this.cliente = new Item();
   }
 
-  }
 }
+
+
 
