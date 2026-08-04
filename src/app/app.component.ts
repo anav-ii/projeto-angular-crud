@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CadastroClienteComponent } from './components/cadastro-cliente/cadastro-cliente.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-menu',
   standalone: true,
   imports: [RouterOutlet, CadastroClienteComponent],
   templateUrl: './app.component.html',

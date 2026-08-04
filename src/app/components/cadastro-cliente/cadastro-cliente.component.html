@@ -11,18 +11,23 @@
     <input type="text" name="email" id="email" [(ngModel)]="cliente.email" required maxlength="50" placeholder="Digite seu email.">
 
     <label for="cpf">CPF:</label>
-    <input type="text" name="cpf" id="cpf"  [(ngModel)]="cliente.cpf" required maxlength="11" placeholder="Digite seu CPF.">
+    <input type="text" name="cpf" id="cpf" [(ngModel)]="cliente.cpf" required maxlength="11" placeholder="Digite seu CPF.">
 
     <label for="datanascimento">Data de Nascimento:</label>
-    <input type="date" name="datanascimento" id="datanascimento"   [(ngModel)]="cliente.datadenascimento"> required maxlength="8" placeholder="Digite a Data de Nascimento.">
+    <input type="date" name="datanascimento" id="datanascimento" [(ngModel)]="cliente.datadenascimento" required maxlength="4" placeholder="Digite a Data de Nascimento."> 
 
     <label for="uf">UF:</label>
-    <input type="text" name="uf" id="uf" [(ngModel)]="cliente.uf"> required maxlength="40" placeholder="Digite a sua Unidade Federativa.">
+    <input type="text" name="uf" id="uf" [(ngModel)]="cliente.uf" required maxlength="40" placeholder="Digite a sua Unidade Federativa."> 
 
     <label for="municipio">Município:</label>
-    <input type="text" name="municipio" id="municipio" [(ngModel)]="cliente.municipio"> maxlength="40" placeholder="Digite o seu município."> 
+    <input type="text" name="municipio" id="municipio" [(ngModel)]="cliente.municipio" maxlength="40" placeholder="Digite o seu município."> 
 
-<button type="button" (click)="salvar()">Salvar</button>
+    @if(indiceEdicao == -1){
+        <button type="button" id="btn-salvar" (click)="salvar()">Salvar</button>
+    }
+    @else{
+        <button type="button" id="btn-atualizar" (click)="atualizar()">Atualizar</button>
+    }
 
 </form>
 
@@ -30,5 +35,46 @@
     <h3>Consulta</h3>
     <input type="text" id="pesquisa" placeholder="Nome:">
     <button id="btn-pesquisa">🔍 Pesquisar</button>
+
+
+<div id="lista-clientes">
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Data de Nascimento</th>
+            <th>UF</th>
+            <th>Município</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
+
+        @for(item of clientesFiltrados; track $index){
+            <tr>
+                <td>{{ item.nome }}</td>
+                <td>{{item.email }}</td>
+                <td>{{item.cpf}}</td>
+                <td>{{item.datadenascimento}}</td>
+                <td>{{item.uf}}</td>
+                <td>{{item.municipio}}</td>
+
+                <td>
+                    <button type="button" (click)="editar(item, $index)">
+                        🖍 Editar
+                    </button>
+                </td>
+        
+                <td>
+                    <button type="button" (click)="deletar($index)"> 
+                        🗑 Deletar 
+                    </button>
+                
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 </div>
 
