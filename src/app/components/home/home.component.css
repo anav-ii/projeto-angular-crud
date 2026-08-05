@@ -1,0 +1,17 @@
+#div-home {
+    width: 1000px;
+    height: 1000px;
+    margin: 20px auto;
+    color: rgb(89, 140, 235);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+
+    border: 2px solid rgb(89, 140, 235) ;
+}
+
+#tito-pessoa{
+    color: firebrick;
+    font-weight: bold;
+}

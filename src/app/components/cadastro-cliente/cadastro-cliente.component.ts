@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Item } from './item';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './cadastro-cliente.component.html',
   styleUrl: './cadastro-cliente.component.css'
 })
-export class CadastroClienteComponent {
+export class CadastroClienteComponent implements OnInit{
 
   cliente: Item = new Item();
 
@@ -24,6 +24,14 @@ export class CadastroClienteComponent {
   
 
   salvar() {
+
+    if (history.state.cliente) {
+      // Aqui você fará a atualização no banco ou no serviço.
+      // Como está usando apenas arrays locais, essa alteração
+      // não será refletida na lista automaticamente.
+      return;
+    }
+  
     let item = new Item();
   
     item.nome = this.cliente.nome;
@@ -36,7 +44,7 @@ export class CadastroClienteComponent {
     this.clientes.push(item);
   
     this.clientesFiltrados = this.clientes;
-
+  
     this.cliente = new Item();
   }
 
@@ -77,6 +85,17 @@ export class CadastroClienteComponent {
     
       this.cliente = new Item();
       this.indiceEdicao = -1;
+    }
+
+    ngOnInit(): void {
+      console.log(history.state);
+    
+      const cliente = history.state.cliente;
+    
+      if (cliente) {
+        this.cliente = { ...cliente };
+        this.indiceEdicao = 0;
+      }
     }
     
   }
