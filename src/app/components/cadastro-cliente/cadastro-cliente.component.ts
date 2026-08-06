@@ -1,104 +1,108 @@
+// Importa os recursos necessários do Angular
 import { Component, OnInit } from '@angular/core';
+
+// Importa a classe que representa um cliente
 import { Item } from './item';
+
+// Importa módulos utilizados no template
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+// Importa o serviço responsável por armazenar e manipular os clientes
+import { PessoaServiceService } from '../../service/pessoa-service.service';
+
+// Importa o serviço de navegação entre páginas
+import { Router } from '@angular/router';
+
 @Component({
+  // Nome da tag utilizada para inserir o componente no HTML
   selector: 'app-cadastro-cliente',
+
+  // Define o componente como standalone
   standalone: true,
+
+  // Módulos utilizados pelo componente
   imports: [FormsModule, CommonModule],
+
+  // Arquivo HTML do componente
   templateUrl: './cadastro-cliente.component.html',
+
+  // Arquivo CSS do componente
   styleUrl: './cadastro-cliente.component.css'
 })
-export class CadastroClienteComponent implements OnInit{
+export class CadastroClienteComponent implements OnInit {
 
+  // Objeto que representa o cliente que será cadastrado ou editado
   cliente: Item = new Item();
 
-  clientes: Item[] = [];
-
-  pesquisa: string = '';
-
-  clientesFiltrados: Item [] = []
-
+  // Armazena o índice do cliente em edição
+  // Valor -1 indica que não há edição em andamento
   indiceEdicao: number = -1;
-  
 
-  salvar() {
+  // Injeta o serviço de clientes e o serviço de navegação
+  constructor(
+    private pessoaService: PessoaServiceService,
+    private router: Router
+  ) {}
 
-    if (history.state.cliente) {
-      // Aqui você fará a atualização no banco ou no serviço.
-      // Como está usando apenas arrays locais, essa alteração
-      // não será refletida na lista automaticamente.
-      return;
-    }
-  
+  // Método responsável por cadastrar um novo cliente
+  salvar(): void {
+
+    // Cria um novo objeto Item
     let item = new Item();
-  
+
+    // Copia os dados informados no formulário
     item.nome = this.cliente.nome;
     item.email = this.cliente.email;
     item.cpf = this.cliente.cpf;
     item.datadenascimento = this.cliente.datadenascimento;
     item.uf = this.cliente.uf;
     item.municipio = this.cliente.municipio;
-  
-    this.clientes.push(item);
-  
-    this.clientesFiltrados = this.clientes;
-  
+
+    // Adiciona o cliente ao serviço
+    this.pessoaService.adicionar(item);
+
+    // Limpa o formulário
     this.cliente = new Item();
+
+    // Redireciona para a tela de listagem
+    this.router.navigate(['/lista']);
   }
 
-  deletar(indice: number){
-    this.clientes.splice(indice, 1)
+  // Método responsável por atualizar um cliente existente
+  atualizar(): void {
+
+    // Atualiza o cliente no serviço utilizando o índice recebido
+    this.pessoaService.atualizar(this.indiceEdicao, this.cliente);
+
+    // Limpa o formulário
+    this.cliente = new Item();
+
+    // Reinicia o índice de edição
+    this.indiceEdicao = -1;
+
+    // Retorna para a tela de listagem
+    this.router.navigate(['/lista']);
   }
 
-  pesquisar () {
+  // Executado automaticamente quando o componente é carregado
+  ngOnInit(): void {
 
-    this.clientesFiltrados = []
+    // Recupera os dados enviados pela tela de lista
+    const cliente = history.state.cliente;
+    const indice = history.state.indice;
 
-    for (let item of this.clientes) {
-      if (item.nome.toLowerCase() == this.pesquisa.toLowerCase()) {
-        this.clientesFiltrados.push(item);
-      }
-    }
-  }
+    // Verifica se o componente foi aberto para edição
+    if (cliente != null) {
 
-  editar(item: Item, indice: number){
-      this.cliente.nome = item.nome;
-      this.cliente.email = item.email;
-      this.cliente.cpf = item.cpf;
-      this.cliente.datadenascimento = item.datadenascimento;
-      this.cliente.uf = item.uf;
-      this.cliente.municipio = item.municipio;
-    
+      // Copia os dados do cliente para o formulário
+      this.cliente = { ...cliente };
+
+      // Armazena o índice do cliente que será atualizado
       this.indiceEdicao = indice;
+
     }
 
-    atualizar() {
-
-      this.clientes[this.indiceEdicao].nome = this.cliente.nome;
-      this.clientes[this.indiceEdicao].email = this.cliente.email;
-      this.clientes[this.indiceEdicao].cpf = this.cliente.cpf;
-      this.clientes[this.indiceEdicao].datadenascimento = this.cliente.datadenascimento;
-      this.clientes[this.indiceEdicao].uf = this.cliente.uf;
-      this.clientes[this.indiceEdicao].municipio = this.cliente.municipio;
-    
-      this.cliente = new Item();
-      this.indiceEdicao = -1;
-    }
-
-    ngOnInit(): void {
-      console.log(history.state);
-    
-      const cliente = history.state.cliente;
-    
-      if (cliente) {
-        this.cliente = { ...cliente };
-        this.indiceEdicao = 0;
-      }
-    }
-    
   }
 
-
-
+}
